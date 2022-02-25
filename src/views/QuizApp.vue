@@ -1,51 +1,92 @@
 <template>
-  <h1>Vue クイズ</h1>
-  <div class="app">
-    <h2>Q. {{ "クイズタイトル" }}</h2>
-    <img
-      class="quiz-image"
-      src="https://via.placeholder.com/300x300"
-      alt="クイズタイトル"
-    />
-    <div class="container">
-      <button>
-        {{ "選択肢1" }}
-      </button>
-      <button>
-        {{ "選択肢2" }}
-      </button>
-      <button>
-        {{ "選択肢3" }}
-      </button>
-    </div>
-    <div>{{ "答え" }}</div>
+  <h2 class="title">Q.{{ quiz.text }}</h2>
+  <div class="quiz-image">
+    <img v-bind:src="quizImagepath" width="300" height="430" />
   </div>
+  <div class="question">
+    <button
+      v-for="question in quiz.questions"
+      :key="question.id"
+      v-on:click="showAnswer(question)"
+      class="question"
+    >
+      {{ question.text }}
+    </button>
+  </div>
+  <div class="feedback">{{ feedback }}</div>
 </template>
 
-<script>
-export default {}
-</script>
-
 <style>
-.app {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+.title {
+  text-align: center;
+  width: 500px;
+  margin: 0 auto;
 }
 
 .quiz-image {
-  height: 300px;
-  width: 300px;
-  object-fit: contain;
+  margin-top: 40px;
+  text-align: center;
 }
 
-.container {
+.question {
   display: flex;
-  height: 2em;
-  width: 300px;
-  padding: 1em;
+  height: 80px;
+  width: 700px;
+  padding: 20px;
+  margin: 0 auto;
   justify-content: space-around;
 }
+
+button.question {
+  margin: 5px;
+  height: 110px;
+}
+.feedback {
+  margin-top: 40px;
+  text-align: center;
+}
 </style>
+
+<script>
+export default {
+  data() {
+    return {
+      feedback: "",
+      quiz: {
+        text: "これは、シャーロックホームズです。シャーロックホームズが作中で実際に述べた言葉は次のうちどれでしょう？",
+        image: "detective.png",
+        questions: [
+          {
+            id: 0,
+            text: "君を確実に破滅させることができるなら、公共の利益のために僕は喜んで死を受け入れよう",
+            answer:
+              "あたり!1893年「最後の事件」での台詞です!宿敵のモリアーティ教授への言葉ですね。名探偵コナンでも登場しました。",
+          },
+          {
+            id: 1,
+            text: "想像力はよき下僕だが、主人には不向きだ。もっとも単純な説明がいつもたいてい当たっている。",
+            answer:
+              "ブッブー。これは、エスキュールポワロの台詞です。オリエント急行殺人事件が有名ですね。",
+          },
+          {
+            id: 2,
+            text: "思い込みはいつだって敵だ。見えるものも見えなくしてしまう。",
+            answer:
+              "残念!東野圭吾さんの有名作品ガリレオシリーズでの言葉です。容疑者Xの献身はおすすめ！",
+          },
+        ],
+      },
+    }
+  },
+  methods: {
+    showAnswer(question) {
+      this.feedback = question.answer
+    },
+  },
+  computed: {
+    quizImagepath() {
+      return require("@/assets/" + this.quiz.image)
+    },
+  },
+}
+</script>
