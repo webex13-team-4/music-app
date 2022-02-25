@@ -1,14 +1,14 @@
 <template>
-  <h2 id="title">Q.{{ quiz.text }}</h2>
-  <div class="quizimage">
-    <img v-bind:src="quizImagepath" width="300" height="400" />
+  <h2 class="title">Q.{{ quiz.text }}</h2>
+  <div class="quiz-image">
+    <img v-bind:src="quizImagepath" width="300" height="430" />
   </div>
   <div class="question">
     <button
       v-for="question in quiz.questions"
       :key="question.id"
-      v-on:click="doBtn(question)"
-      id="question"
+      v-on:click="showAnswer(question)"
+      class="question"
     >
       {{ question.text }}
     </button>
@@ -17,13 +17,13 @@
 </template>
 
 <style>
-#title {
+.title {
   text-align: center;
   width: 500px;
   margin: 0 auto;
 }
 
-.quizimage {
+.quiz-image {
   margin-top: 40px;
   text-align: center;
 }
@@ -37,10 +37,12 @@
   justify-content: space-around;
 }
 
-button#question {
-  margin: 10px;
+button.question {
+  margin: 5px;
+  height: 110px;
 }
 .feedback {
+  margin-top: 40px;
   text-align: center;
 }
 </style>
@@ -77,7 +79,7 @@ export default {
     }
   },
   methods: {
-    doBtn(question) {
+    showAnswer(question) {
       this.feedback = question.answer
     },
   },
