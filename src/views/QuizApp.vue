@@ -1,4 +1,5 @@
 <template>
+  <h1>Vue クイズ</h1>
   <h2 class="title">Q.{{ quiz.text }}</h2>
   <div class="quiz-image">
     <img v-bind:src="quizImagepath" width="300" height="430" />
