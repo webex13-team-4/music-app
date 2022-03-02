@@ -39,10 +39,10 @@
 .img {
   width: 250px;
   height: 250px;
-}
-.img:hover {
-  filter: blur(10px);
   transition: 2s;
+}
+.navigation__link:hover .img {
+  filter: blur(10px);
 }
 .nav-inner p {
   position: absolute;
@@ -56,8 +56,15 @@
   transition: opacity 2s;
   opacity: 0;
 }
-.v-enter-to {
+.v-enter-to,
+.v-leave {
   opacity: 1;
+}
+.v-leave-active {
+  transition: opacity 2s;
+}
+.v-leave-to {
+  opacity: 0;
 }
 </style>
 
