@@ -24,6 +24,7 @@
   display: flex;
   margin: 0 150px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .nav-inner {
@@ -90,6 +91,12 @@ export default {
           title: "Memo",
           show: false,
           name: "memo",
+        },
+        {
+          id: 3,
+          title: "Original",
+          show: false,
+          name: "original",
         },
       ],
     }

@@ -29,6 +29,12 @@
         class="navigation__link"
         exact-active-class="navigation__link--exact-active"
         >Vue メモ</router-link
+      >|
+      <router-link
+        to="/original"
+        class="navigation__link"
+        exact-active-class="navigation__link--exact-active"
+        >オリジナルアプリ</router-link
       >
     </nav>
   </header>
