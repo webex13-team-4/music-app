@@ -4,9 +4,12 @@
     <ul class="memo-list__container">
       <li v-for="(memo, index) in memos" :key="memo.id" class="memo">
         <div class="memo__checkbox">
-          <input type="checkbox" v-model="checkValue" />
+          <input type="checkbox" v-on:click="onChange" />
         </div>
-        <div class="memo__text">
+        <div
+          class="memo__text"
+          v-bind:class="{ memo__text_done: memoTextDone }"
+        >
           {{ memo.value }}
         </div>
         <button v-on:click="deleteMemo(index)" class="memo__delete">
@@ -24,7 +27,11 @@
 <script>
 export default {
   data() {
-    return { inputValue: "", memos: [], checkValue: false }
+    return {
+      inputValue: "",
+      memos: [],
+      memoTextDone: false,
+    }
   },
   methods: {
     addMemo: function () {
@@ -32,6 +39,9 @@ export default {
         value: this.inputValue,
       })
       this.inputValue = ""
+    },
+    onChange: function (e) {
+      this.memoTextDone = e.target.checked
     },
     deleteMemo: function (index) {
       if (confirm("削除しますか?")) {
@@ -76,7 +86,7 @@ export default {
   text-align: left;
 }
 
-.memo__text--done {
+.memo__text_done {
   text-decoration-line: line-through;
 }
 
