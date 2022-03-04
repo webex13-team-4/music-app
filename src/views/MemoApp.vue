@@ -4,11 +4,15 @@
     <ul class="memo-list__container">
       <li v-for="(memo, index) in memos" :key="memo.id" class="memo">
         <div class="memo__checkbox">
-          <input type="checkbox" v-on:click="onChange" />
+          <input
+            type="checkbox"
+            :checked="memo.memoTextDone"
+            v-on:change="(e) => onChange(e, index)"
+          />
         </div>
         <div
           class="memo__text"
-          v-bind:class="{ memo__text_done: memoTextDone }"
+          v-bind:class="{ memo__text_done: memo.memoTextDone }"
         >
           {{ memo.value }}
         </div>
@@ -30,18 +34,22 @@ export default {
     return {
       inputValue: "",
       memos: [],
-      memoTextDone: false,
     }
   },
   methods: {
     addMemo: function () {
       this.memos.push({
         value: this.inputValue,
+        memoTextDone: false,
       })
       this.inputValue = ""
     },
-    onChange: function (e) {
-      this.memoTextDone = e.target.checked
+
+    onChange: function (e, index) {
+      this.memos.splice(index, 1, {
+        value: this.memos[index].value,
+        memoTextDone: e.target.checked,
+      })
     },
     deleteMemo: function (index) {
       if (confirm("削除しますか?")) {
