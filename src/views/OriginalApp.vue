@@ -1,5 +1,6 @@
 <template>
   <h1>Dog Album</h1>
+  <!-- 写真選ぶタグとアルバム開くタグ -->
   <div class="head">
     <label
       v-on:click="chooseDogImage"
@@ -18,6 +19,7 @@
   <div v-if="isActive">
     <h2>Step1 気になる犬種を選んでね!</h2>
     <div class="outer">
+      <!-- クリックしたらその犬種の画像表示される -->
       <div
         v-for="(dog, index) in dogs"
         v-bind:key="index"
@@ -34,6 +36,7 @@
     </div>
     <h2>Step2 好きな画像をMy Albumに保存しよう!</h2>
     <div class="outer">
+      <!-- AddDogで選択中の画像の配列selecteddogsImageに入れていく -->
       <div
         v-for="(dogimage, index) in dogimages"
         v-on:click="AddDog(dogimage)"
@@ -45,6 +48,7 @@
           class="dog-image"
           :class="{ blur: this.selecteddogs.includes(dogimage) }"
         />
+        <!-- 選択した画像にチェック -->
         <p v-if="this.selecteddogs.includes(dogimage)">✔︎</p>
       </div>
     </div>
@@ -153,8 +157,11 @@ export default {
   data() {
     return {
       dogimages: [],
+      // ↓追加時に選択中の画像
       selecteddogs: [],
+      // ↓アルバムの画像
       favoritedogs: [],
+      // ↓削除時に選択中の画像
       deletedogs: [],
       isActive: true,
       selectbreed: "",
@@ -213,6 +220,16 @@ export default {
     }
   },
   methods: {
+    // ↓アルバム表示
+    favoriteDogImage: function () {
+      this.isActive = false
+      this.favoritedogs = JSON.parse(localStorage.dogimages)
+    },
+    // ↓選ぶ画面表示
+    chooseDogImage: function () {
+      this.isActive = true
+    },
+    // ↓画像をAPIで取ってくる
     getDogImage: function (dog) {
       if (this.selectbreed) {
         this.selectbreed.select = false
@@ -229,21 +246,7 @@ export default {
           })
       }
     },
-    selectDogImage: function () {
-      for (let i = 0; i < this.selecteddogs.length; i++) {
-        this.favoritedogs.push(this.selecteddogs[i])
-      }
-      localStorage.dogimages = JSON.stringify(this.favoritedogs)
-      this.selecteddogs = []
-      this.isActive = false
-    },
-    favoriteDogImage: function () {
-      this.isActive = false
-      this.favoritedogs = JSON.parse(localStorage.dogimages)
-    },
-    chooseDogImage: function () {
-      this.isActive = true
-    },
+    // ↓アルバムに追加する画像を選ぶ
     AddDog: function (dogimage) {
       if (this.selecteddogs.includes(dogimage)) {
         this.selecteddogs = this.selecteddogs.filter((elm) => {
@@ -253,6 +256,16 @@ export default {
         this.selecteddogs.push(dogimage)
       }
     },
+    // ↓アルバムに画像を追加
+    selectDogImage: function () {
+      for (let i = 0; i < this.selecteddogs.length; i++) {
+        this.favoritedogs.push(this.selecteddogs[i])
+      }
+      localStorage.dogimages = JSON.stringify(this.favoritedogs)
+      this.selecteddogs = []
+      this.isActive = false
+    },
+    // ↓アルバムから削除する画像を選ぶ
     DeleteDog: function (dog) {
       if (this.deletedogs.includes(dog)) {
         this.deletedogs = this.deletedogs.filter((elm) => {
@@ -262,6 +275,7 @@ export default {
         this.deletedogs.push(dog)
       }
     },
+    // ↓アルバムから画像を削除する
     deleteDogImage: function () {
       for (let i = 0; i < this.deletedogs.length; i++) {
         this.favoritedogs = this.favoritedogs.filter((elm) => {
