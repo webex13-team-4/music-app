@@ -94,7 +94,7 @@ export default {
         },
         {
           id: 3,
-          title: "Original",
+          title: "Dog Album",
           show: false,
           name: "original",
         },
