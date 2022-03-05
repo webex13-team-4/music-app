@@ -2,7 +2,7 @@
   <h1>Vue メモ</h1>
   <div class="memo-list">
     <ul class="memo-list__container">
-      <li v-for="(memo, index) in memos" :key="memo.id" class="memo">
+      <li v-for="(memo, index) in memos" :key="index" class="memo">
         <div class="memo__checkbox">
           <input
             type="checkbox"
