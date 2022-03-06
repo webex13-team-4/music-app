@@ -2,37 +2,62 @@
   <h1>Vue メモ</h1>
   <div class="memo-list">
     <ul class="memo-list__container">
-      <li class="memo">
+      <li v-for="(memo, index) in memos" :key="index" class="memo">
         <div class="memo__checkbox">
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            :checked="memo.memoTextDone"
+            v-on:change="(e) => onChange(e, index)"
+          />
         </div>
-        <div class="memo__text">ひき肉を300g買う</div>
-        <button class="memo__delete">削除</button>
-      </li>
-      <li class="memo">
-        <div class="memo__checkbox">
-          <input type="checkbox" />
+        <div
+          class="memo__text"
+          v-bind:class="{ memo__text_done: memo.memoTextDone }"
+        >
+          {{ memo.value }}
         </div>
-        <div class="memo__text">ホウレンソウを1束買う</div>
-        <button class="memo__delete">削除</button>
-      </li>
-      <li class="memo">
-        <div class="memo__checkbox">
-          <input type="checkbox" />
-        </div>
-        <div class="memo__text">ピーマンを2個買う</div>
-        <button class="memo__delete">削除</button>
+        <button v-on:click="deleteMemo(index)" class="memo__delete">
+          削除
+        </button>
       </li>
     </ul>
     <div class="add-memo-field">
-      <input class="add-memo-field__input" type="text" />
-      <button class="add-memo-field__button">追加</button>
+      <input type="text" v-model="inputValue" class="add-memo-field__input" />
+      <button v-on:click="addMemo" class="add-memo-field__button">追加</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      inputValue: "",
+      memos: [],
+    }
+  },
+  methods: {
+    addMemo: function () {
+      this.memos.push({
+        value: this.inputValue,
+        memoTextDone: false,
+      })
+      this.inputValue = ""
+    },
+
+    onChange: function (e, index) {
+      this.memos.splice(index, 1, {
+        value: this.memos[index].value,
+        memoTextDone: e.target.checked,
+      })
+    },
+    deleteMemo: function (index) {
+      if (confirm("削除しますか?")) {
+        this.memos.splice(index, 1)
+      }
+    },
+  },
+}
 </script>
 
 <style scoped>
@@ -69,7 +94,7 @@ export default {}
   text-align: left;
 }
 
-.memo__text--done {
+.memo__text_done {
   text-decoration-line: line-through;
 }
 
